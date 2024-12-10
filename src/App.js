@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import LoaderPage from './Loader/LoaderPage.js';
 import Nutrition from './Nutrition.js';
-import imageOne from './coconut.jpg';
-import imageTwo from './healthy-life.jpg';
-import imageThree from './cabbige.jpg';
-import imageFour from './food.jpg';
-import imageFive from './vitaminC.jpg';
-import imageCard from './card.jpg';
-import imageInfo from './3644584.jpg';
-import socialFb from './icon-facebook.png';
-import socialInst from './icon-instagram.png';
-import socialLink from './icon-linkedin.png';
+import imageOne from './assets/coconut.jpg';
+import imageTwo from './assets/healthy-life.jpg';
+import imageThree from './assets/cabbige.jpg';
+import imageFour from './assets/food.jpg';
+import imageFive from './assets/vitaminC.jpg';
+import imageCard from './assets/card.jpg';
+import imageInfo from './assets/3644584.jpg';
+import socialFb from './assets/icon-facebook.png';
+import socialInst from './assets/icon-instagram.png';
+import socialLink from './assets/icon-linkedin.png';
 import './App.css';
 
 function App() {
@@ -37,7 +37,9 @@ function App() {
     if(response.ok) {
       setStateLoader(false);
       const data = await response.json();
+      console.log(data);
       setMyNutrition(data);
+      
     
     } else {
       setStateLoader(false);
@@ -58,6 +60,7 @@ function App() {
     if (wordSubmitted !== '') {
       let ingr = wordSubmitted.split(/[,,;,\n,\r]/);
       fetchData(ingr);
+      
     }
   }, [wordSubmitted])
 
@@ -66,11 +69,13 @@ function App() {
       {stateLoader && <LoaderPage/>}
       <header>
         <h2>Cooking And Meal Prep</h2> 
-        <img src = {imageOne} alt = 'coconut' width = '100px' height = '90px'/>
-        <img src = {imageTwo} alt = 'life' width = '100px' height = '90px'/>
-        <img src = {imageThree} alt = 'cabbige' width = '100px' height = '90px'/>
-        <img src = {imageFour} alt = 'food' width = '100px' height='90px'/>
-        <img src = {imageFive} alt = 'vitaminC' width = '100px' height='90px'/>
+        <div className='food'>
+        <img src = {imageOne} alt = 'coconut'/>
+        <img src = {imageTwo} alt = 'life'/>
+        <img src = {imageThree} alt = 'cabbige'/>
+        <img src = {imageFour} alt = 'food'/>
+        <img src = {imageFive} alt = 'vitaminC'/>
+        </div>
         <h3>The Best Way to Manage Nutrition</h3> 
       </header>
 
@@ -80,10 +85,9 @@ function App() {
         <p>Enter an ingredient list for what you are cooking, like "2 eggs, 1 cup rice". Type the ingredient name on a new line.</p>
         
         <form onSubmit = {finalSearch}>
-          <p><textarea placeholder="Enter Recipe Ingredients...  " cols="30" rows="10"
+          <textarea placeholder="Enter Recipe Ingredients...  " cols="30" rows="10"
           onChange = {myRecipeSearch}></textarea>
-          </p>
-          <button onClick = {()=> alert("You clicked the button")} type="submit">Analyze Ingredients</button>
+          <button type="submit">Analyze Ingredients</button>
         </form>
 
         <div class = "flip-card">
@@ -102,8 +106,8 @@ function App() {
         <div class = "flip-card-back">
         {
           myNutrition && Object.values(myNutrition.totalNutrients)
-            .map(({ label, quantity, unit }) =>
-            <Nutrition 
+            .map(({ label, quantity, unit}, index) =>
+            <Nutrition
                 label = {label}
                 quantity = {quantity}
                 unit = {unit}/>
@@ -126,7 +130,7 @@ function App() {
       <footer>
         <h2>Contact Us</h2>
         <a href = "https://www.facebook.com/marina.garaeva" className = "fa fa_facebook"><img src = {socialFb} alt='social'/></a>
-        <a href = "https://www.instagram.com/" className = "fa fa_instagram"><img src = {socialInst} alt = 'social' width = '36px' height = '36px'/></a>
+        <a href = "https://www.instagram.com/" className = "fa fa_instagram"><img src = {socialInst} alt = 'social'width = '36px' height = '36px'/></a>
         <a href = "https://www.linkedin.com/" className = "fa fa_linkedIn"><img src = {socialLink} alt = 'social'/></a>
         <p>Copyright © Maryna Garaieva. 2024 | All Rights Reserved</p>
       </footer>
